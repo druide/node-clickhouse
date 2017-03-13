@@ -169,6 +169,11 @@ function httpRequest (reqParams, reqData, cb) {
 
 	var req = http.request (reqParams, onResponse);
 
+	req.on('error', function (err) {
+		stream.emit ('error', err);
+		return cb && cb (err);
+	});
+
 	if (reqData.query)
 		req.write (reqData.query);
 
