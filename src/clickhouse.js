@@ -1,4 +1,5 @@
 var http = require ('http');
+var https = require('https');
 var url  = require ('url');
 var qs   = require ('querystring');
 var util = require ('util');
@@ -167,7 +168,9 @@ function httpRequest (reqParams, reqData, cb) {
 
 	};
 
-	var req = http.request (reqParams, onResponse);
+	var req = reqParams.protocol === 'https:'
+		? https.request (reqParams, onResponse)
+		: http.request (reqParams, onResponse);
 
 	req.on('error', function (err) {
 		stream.emit ('error', err);
